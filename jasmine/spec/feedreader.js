@@ -65,9 +65,9 @@ $(function() {
      */
     it('menu changes visibility if clicked', function() {
       document.querySelector('.icon-list').click();
-      expect(document.body.classList).not.toContain('menu-hidden');
+      expect($('body').hasClass('menu-hidden')).toBe(false);
       document.querySelector('.icon-list').click();
-      expect(document.body.classList).toContain('menu-hidden');
+      expect($('body').hasClass('menu-hidden')).toBe(true);
     });
   });
 
@@ -81,26 +81,35 @@ $(function() {
     beforeEach(function(done) {
       loadFeed(0, done);
     });
-    it('there is at least one .entry element in the .feed container', function() {
-      expect(document.getElementsByClassName('entry').length).toBeGreaterThan(0);
+    it('there is at least one .entry element in the .feed container', function(done) {
+      const containerElements = document.querySelector('.feed').children;
+      expect(containerElements.length).toBeGreaterThan(0);
+      for(let element of containerElements) {
+        expect(element.querySelector('.entry')).toBeDefined();
+      }
+      done();
     });
   });
 
   /* new test suite named "New Feed Selection" */
   describe('New Feed Selection', function() {
     let oldFeed;
+    let newFeed;
     beforeEach(function(done) {
       loadFeed(0, function() {
         oldFeed = document.querySelector('.feed').innerHTML;
-        loadFeed(1, done);
+        loadFeed(1, function() {
+          newFeed = document.querySelector('.feed').innerHTML;
+          done();
+        });
       });
     });
     /* a test that ensures when a new feed is loaded
      * by the loadFeed function that the content actually changes.
      */
-    it('should load a new feed', function() {
-      expect(document.querySelector('.feed').innerHTML).not.toBe(oldFeed);
-    });
+     it('should load a new feed', function() {
+       expect(newFeed).not.toBe(oldFeed);
+     });
   });
 
 }());
