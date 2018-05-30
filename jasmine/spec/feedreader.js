@@ -32,10 +32,10 @@ $(function() {
      * and that the URL is not empty.
      */
     it('has a valid URL', function() {
-      for (let i = 0; i < allFeeds.length; i++) {
-        expect(allFeeds[i].url).toBeDefined();
-        expect(allFeeds[i].url).toBeTruthy();
-      }
+      allFeeds.forEach(function(feed) {
+        expect(feed.url).toBeDefined();
+        expect(feed.url.length).toBeGreaterThan(0);
+      });
     });
 
 
