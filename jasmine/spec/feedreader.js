@@ -82,11 +82,8 @@ $(function() {
       loadFeed(0, done);
     });
     it('there is at least one .entry element in the .feed container', function(done) {
-      const containerElements = document.querySelector('.feed').children;
+      const containerElements = $('.feed .entry');
       expect(containerElements.length).toBeGreaterThan(0);
-      for(let element of containerElements) {
-        expect(element.querySelector('.entry')).toBeDefined();
-      }
       done();
     });
   });
